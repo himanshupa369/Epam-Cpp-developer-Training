@@ -1,1 +1,1 @@
-# Epam-C-Training
+# Epam-Cpp-Training
