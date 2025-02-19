@@ -10,6 +10,7 @@ This file demonstrates core C++ concepts, including:
 - **Macros**  
 - **Function Pointers**  
 - **Default Function Arguments**
+- **Inline**
 
 ## C++ Concepts Covered in `StructNdClass.cpp`
 
