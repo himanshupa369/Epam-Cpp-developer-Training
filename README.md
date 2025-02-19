@@ -1,5 +1,5 @@
 # Epam-Cpp-Training
-## C++ Concepts Covered in `main.cpp`
+## C++ Concepts Covered in `main.cpp` add.h and add.cpp
 
 This file demonstrates core C++ concepts, including:
 
