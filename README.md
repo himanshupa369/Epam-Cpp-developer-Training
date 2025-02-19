@@ -22,7 +22,7 @@ This file demonstrates core C++ concepts, including:
 - **2D Arrays and Pointer Arithmetic**
 
 
-# Topics Covered in This MemoryManagement.cpp
+# Topics Covered in MemoryManagement.cpp
 
 1. **Introduction to Dynamic Memory Allocation**
 2. **Using `malloc()` for Memory Allocation**
