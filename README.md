@@ -11,4 +11,13 @@ This file demonstrates core C++ concepts, including:
 - **Function Pointers**  
 - **Default Function Arguments**
 
-The code provides practical examples of each of these topics, showcasing essential C++ techniques for effective programming.
+## C++ Concepts Covered in `StructNdClass.cpp`
+
+- **Structures and Memory Alignment**  
+- **Unions**  
+- **Pointer Arithmetic**  
+- **Dynamic Memory Allocation**  
+- **Overloading Assignment Operator**  
+- **Structure with Functions**  
+- **2D Arrays and Pointer Arithmetic**
+
