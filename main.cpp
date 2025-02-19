@@ -25,6 +25,8 @@ inline int Square(int x) {
 }
 // macros
 //#define Square(x) x*x
+
+//Default function Arguments
 void greet(string name, string message = "Hello") {
     cout << message << ", " << name << "!" << endl;
 }
