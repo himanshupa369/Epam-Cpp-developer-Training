@@ -4,7 +4,7 @@ using namespace std;
 // Polymorphism: A function with the same name but different parameter types or the number of parameters (not return type) is called polymorphism.
 // In this example, we demonstrate static (compile-time) polymorphism using function overloading and operator overloading.
 
-//friend function:- Friend Function is  a function which is not a member function of class and it has previllage to access private 
+//friend function:- Friend Function is  a function which is not a member function of class and it has previlege to access private 
 // and protected member  of the class
 class calculator {
 private:
