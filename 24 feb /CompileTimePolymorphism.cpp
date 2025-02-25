@@ -13,7 +13,7 @@ private:
 public:
     int x;
 
-    // Constructor to initialize x with a value
+    // Constructor to initialize x,p,q with a value
     calculator(int lv,int pv,int qv) : x(lv),p(pv),q(qv) {}
     
     //friend function
