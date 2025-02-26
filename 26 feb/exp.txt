@@ -1,0 +1,3 @@
+Hello,swaraj.
+How do you do?
+File handling is fun in C++ so today we will  studied this topic!
