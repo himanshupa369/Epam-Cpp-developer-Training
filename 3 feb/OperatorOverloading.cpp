@@ -94,7 +94,7 @@ private:
 public:
     Mul(int val):x(val){}
     Mul operator*(const Mul& obj) {
-        return this->x * obj.x;
+        return Mul(this->x * obj.x);
     }
     void display() {
         cout << "x :" << x << endl;
