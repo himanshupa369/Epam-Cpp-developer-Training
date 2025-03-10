@@ -63,6 +63,7 @@ int ProcessStatus(int count) {
 		ptrArr[i] = i;
 	}
 	free(ptrArr);
+	delete[] p;
 	return 0;
 }
 
@@ -71,7 +72,7 @@ int main() {
 		//ProcessStatus(numeric_limits<int>::max());
 		ProcessStatus(5);
 	}
-	/*catch(runtime_error& e){
+	catch(runtime_error& e){
 		cout << "error is: " << e.what() << endl;
 	}
 	catch (out_of_range& e) {
@@ -79,17 +80,17 @@ int main() {
 	}
 	catch (bad_alloc& e) {
 		cout << "error is: " << e.what() << endl;
-	}*/
-	// All - Catch Block(catch (exception&))//
-	catch (exception& e) {
-		cout << "error is: " << e.what() << endl;
 	}
+	// All - Catch Block(catch (exception&))//
+	// catch (exception& e) {
+	// 	cout << "error is: " << e.what() << endl;
+	// }
 	// Universal Catch Block (catch(...))//
 	// it does not access exception detail like e.what(). //
 	// it is not very useful due to it does not give any data about error.//
 	// "..." is called ellipses. //
-	catch (...) {
-		cout << "Exception which are not documented it catch them also " << endl;
-	}
+	// catch (...) {
+	// 	cout << "Exception which are not documented it catch them also " << endl;
+	// }
 	return 0;
 }
