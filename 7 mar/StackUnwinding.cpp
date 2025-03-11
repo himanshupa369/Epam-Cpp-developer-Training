@@ -61,7 +61,7 @@ int ProcessStatus(int count) {
 	//Test* t2=new Test();
   
 	//use of smart pointer.//
-	unique_ptr<Test>(new Test());
+	unique_ptr<Test> t(new Test());
 
 	cout << "Throwing an error:" << endl;
 	if (count < 10) {
