@@ -28,7 +28,9 @@ using namespace  std;
 //When code clarity is more important than flexibility.
 //When dealing with complex inheritance hierarchies.
 
-
+//Note:- we can't use template <string str> before c++ 20 versions but we can use it from version c++ 20.
+//From C++20, string_view can be used as a non-type template parameter: with header #include<string_view>
+//template <const char* str> we can use this before c++ 20 version behalf of string ///
 //function template
 template <typename T>
 T sum(T x, T y) {
