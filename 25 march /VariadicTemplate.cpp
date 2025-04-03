@@ -7,7 +7,7 @@
 // Works for both functions and classes.
 // Uses recursion or fold expressions for processing arguments.
 
-// Function Variadic Template
+// 1.Function Variadic Template
 // A function variadic template allows a function to accept an arbitrary number of parameters.
 // #include <iostream>
 // using namespace std;
@@ -31,7 +31,7 @@
 
 
 
-//Class Variadic Template...
+// 2. Class Variadic Template...
 //A class variadic template allows a class to accept multiple template parameters.
 // #include <iostream>
 // using namespace std;
@@ -65,6 +65,23 @@
 // int main() {
 //     MyClass<int, string, double> obj(10, "hello", 3.14);
 //     obj.print();
+//     return 0;
+// }
+
+
+// 3. Using Fold Expressions (C++17)
+// Instead of recursion, C++17 introduced fold expressions to simplify variadic template processing.
+
+// #include <iostream>
+// using namespace std;
+
+// template<typename... Args>
+// auto sum(Args... args) {
+//     return (args + ...);  // Fold expression
+// }
+
+// int main() {
+//     cout << sum(1, 2, 3, 4, 5) << endl;  // Output: 15
 //     return 0;
 // }
 
