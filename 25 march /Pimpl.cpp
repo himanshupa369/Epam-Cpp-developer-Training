@@ -1,3 +1,42 @@
+
+
+ //  #include<iostream>
+ //  #include<memory>
+  
+ // class Person{
+ //      public:
+ //      Person(std::string s);
+ //      ~Person();
+ //      std::string Getattributes();
+ //      private:
+ //      struct pimple;
+ //      pimple* pimplePtr;
+ //  };
+ //  struct Person::pimple {
+ //      std::string greet;
+ //      std::string fname;
+ //      std::string lname;
+ //  };
+ //  Person::Person(std::string s){
+ //      pimplePtr=new pimple();
+ //      pimplePtr->greet=s;
+ //      pimplePtr->fname="Himanshu";
+ //      pimplePtr->lname="Pathak";
+ //  }
+ //  Person::~Person(){
+ //      delete pimplePtr;
+ //  }
+  
+ //  std::string Person::Getattributes(){
+ //      return pimplePtr->greet+" "+pimplePtr->fname+" "+pimplePtr->lname;
+ //  }
+  
+ //  int main(){
+ //      Person mike("hello");
+ //      std::cout<<mike.Getattributes()<<std::endl;
+ //  }
+
+
 #include <iostream>
 using namespace std;
 
