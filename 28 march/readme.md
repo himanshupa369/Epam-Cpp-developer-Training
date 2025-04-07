@@ -22,3 +22,56 @@ But traversal order is non-deterministic, so often not used for logical traversa
 <h4>5. Binary Heap (Min/Max Heap)</h4>
 Backed by array<br>
 You could technically iterate over the array, but it's not meaningful in terms of heap logic<br>
+
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Data Structure</th>
+      <th>Iterator Used?</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Stack (std::stack)</td>
+      <td>❌</td>
+      <td>No iterators exposed</td>
+    </tr>
+    <tr>
+      <td>Queue (std::queue)</td>
+      <td>❌</td>
+      <td>No iterators exposed</td>
+    </tr>
+    <tr>
+      <td>Priority Queue</td>
+      <td>❌</td>
+      <td>No iterators exposed</td>
+    </tr>
+    <tr>
+      <td>Vector</td>
+      <td>✅</td>
+      <td>Full iterator support</td>
+    </tr>
+    <tr>
+      <td>Map/Set</td>
+      <td>✅</td>
+      <td>Ordered traversal via iterators</td>
+    </tr>
+    <tr>
+      <td>Unordered Map/Set</td>
+      <td>✅ (❗)</td>
+      <td>Traversal exists but order not guaranteed</td>
+    </tr>
+    <tr>
+      <td>Heap</td>
+      <td>❌</td>
+      <td>No logical iterator traversal</td>
+    </tr>
+    <tr>
+      <td>Trees (custom)</td>
+      <td>❌ / ✅</td>
+      <td>Usually use recursion/queue/stack for traversal</td>
+    </tr>
+  </tbody>
+</table>
