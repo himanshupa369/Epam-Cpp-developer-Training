@@ -22,6 +22,8 @@ But traversal order is non-deterministic, so often not used for logical traversa
 <h4>5. Binary Heap (Min/Max Heap)</h4>
 Backed by array<br>
 You could technically iterate over the array, but it's not meaningful in terms of heap logic<br>
+<br>
+<br>
 
 
 <table border="1">
