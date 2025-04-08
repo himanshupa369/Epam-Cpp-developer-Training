@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Iterator Invalidation Table</title>
+  
 </head>
 <body>
 
@@ -73,3 +73,47 @@
 
 </body>
 </html>
+
+<table border="1">
+  <tr>
+    <th>Operation</th>
+    <th>Container Type</th>
+    <th>Invalidation Effect</th>
+  </tr>
+  <tr>
+    <td>push_back</td>
+    <td>vector/string</td>
+    <td>✅ If reallocation</td>
+  </tr>
+  <tr>
+    <td>reserve</td>
+    <td>vector/string</td>
+    <td>❌ Prevents reallocation</td>
+  </tr>
+  <tr>
+    <td>erase(it)</td>
+    <td>all containers</td>
+    <td>✅ Only erased iterator</td>
+  </tr>
+  <tr>
+    <td>insert</td>
+    <td>vector/deque</td>
+    <td>✅ If causes reallocation</td>
+  </tr>
+  <tr>
+    <td>insert</td>
+    <td>list/map/set</td>
+    <td>❌ No effect</td>
+  </tr>
+  <tr>
+    <td>rehash (insert +)</td>
+    <td>unordered_*</td>
+    <td>✅ Invalidates all</td>
+  </tr>
+  <tr>
+    <td>clear</td>
+    <td>any</td>
+    <td>✅ All iterators invalid</td>
+  </tr>
+</table>
+
