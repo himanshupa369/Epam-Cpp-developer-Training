@@ -4,15 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Multithreading in C++</title>
-  <style>
-    body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; background-color: #f9f9f9; color: #333; }
-    h1, h2, h3 { color: #005a9c; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-    table, th, td { border: 1px solid #aaa; }
-    th, td { padding: 10px; text-align: left; }
-    th { background-color: #e0e0e0; }
-    code { background-color: #eee; padding: 2px 4px; border-radius: 4px; }
-  </style>
 </head>
 <body>
   <h1>Multithreading in C++</h1>
