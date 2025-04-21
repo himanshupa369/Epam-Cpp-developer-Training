@@ -7,9 +7,7 @@
 
 <h2>Solid Principle Playlist</h2>
 
-<iframe 
-        src="https://www.youtube.com/embed/HLFbeC78YlU?list=PL6n9fhu94yhXjG1w2blMXUzyDrZ_eyOme" 
-</iframe>
+        "https://www.youtube.com/embed/HLFbeC78YlU?list=PL6n9fhu94yhXjG1w2blMXUzyDrZ_eyOme"
 
 </body>
 </html>
