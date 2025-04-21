@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Common Design Principles</title>
+
 </head>
 <body>
   <h1>🧠 Common Design Principles</h1>
@@ -19,7 +19,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SOLID Principles</title>
+
 </head>
 <body>
   <h1>🔠 SOLID Principles</h1>
