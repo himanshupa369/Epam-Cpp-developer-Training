@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
+    
+</head>
+<body>
+
+<h2>Solid Principle Playlist</h2>
+
+<iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/HLFbeC78YlU?list=PL6n9fhu94yhXjG1w2blMXUzyDrZ_eyOme" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        allowfullscreen>
+</iframe>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
 
 </head>
 <body>
