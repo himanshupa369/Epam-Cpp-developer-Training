@@ -1,5 +1,5 @@
 /*
-🔹 S — Single Responsibility Principle (SRP)
+🔹 S — Single Responsibility Principle (SRP).
 
 🧠 Definition:
 A class should have only one reason to change.
