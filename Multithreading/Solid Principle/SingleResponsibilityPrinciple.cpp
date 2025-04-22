@@ -7,6 +7,20 @@ A class should have only one reason to change.
 That means:
 One class → One job → One responsibility
 
+Every module or class should have responsibility over a single part of the functionality provided by the software, 
+and that responsibility should be entirely encapsulated by the class.
+
+=> There can be many members in the class as long as they related to the single responsibility.
+=> With SRP,Classes becomes smaller and cleaner.
+=> Code is less fragile.
+
+Motivation...
+=> Maintainability,
+=> Testability (for large scale systen),
+=> Flexibility and extensibility,
+=> Parallel Development,
+=> Loose Coupling 
+
 💥 Why It Matters:
 - Reduces complexity
 - Easier to debug and test
