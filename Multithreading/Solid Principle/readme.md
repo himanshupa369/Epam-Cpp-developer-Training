@@ -12,7 +12,17 @@
 </body>
 </html>
 
+<head>
+    
+</head>
+<body>
 
+<h2>Solid Principle Examples</h2>
+
+        "https://medium.com/backticks-tildes/the-s-o-l-i-d-principles-in-pictures-b34ce2f1e898"
+
+</body>
+</html>
 
 <!DOCTYPE html>
 <html>
