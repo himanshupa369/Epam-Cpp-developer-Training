@@ -107,3 +107,54 @@ int main() {
 
 	return 0;
 }
+
+
+// Global Overload in c++
+// 🔍 What is Global Overload in C++?
+// Global overload in C++ refers to overloading an operator or function outside the scope of a class — i.e., as a non-member (global) function.
+// Eg. :- a+5 work well but not 5+a in overloading.
+
+// This is often done when:
+// The left-hand operand is not a class object.
+// You want symmetric operator support (e.g., a + b where a is not an object of your class).
+// You want to define commutative behavior (like int + MyClass and MyClass + int).
+
+#include <iostream>
+
+class Point {
+public:
+    int x, y;
+
+    Point(int x, int y) : x(x), y(y) {}
+
+    // Member overload
+    Point operator+(const Point& other) const {
+        return Point(x + other.x, y + other.y);
+    }
+
+    void display() const {
+        std::cout << "(" << x << ", " << y << ")\n";
+    }
+};
+
+// Global overload: Point + int
+Point operator+(const Point& p, int value) {
+    return Point(p.x + value, p.y + value);
+}
+
+// Global overload: int + Point (symmetric)
+Point operator+(int value, const Point& p) {
+    return Point(p.x + value, p.y + value);
+}
+
+int main() {
+    Point a(1, 2), b(3, 4);
+
+    Point c = a + b;     // member function
+    Point d = a + 5;     // global overload
+    Point e = 5 + a;     // global overload (commutative)
+
+    c.display(); // (4, 6)
+    d.display(); // (6, 7)
+    e.display(); // (6, 7)
+}
