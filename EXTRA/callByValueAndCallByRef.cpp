@@ -13,7 +13,7 @@
 
 
 ✅ Operator Overloading Rules with Examples in C++ :--
-  
+  //Important :- Operator function must be non static except new and delete.
 | **Rule**                                            | **Description**                                        | **Example**                                                          |
 | --------------------------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------- |
 | ✔ **Existing Operators Only**                       | You can only overload operators already defined in C++ | ✅ `operator+`, `operator==` <br> ❌ `operator**`, `operator%%`        |
