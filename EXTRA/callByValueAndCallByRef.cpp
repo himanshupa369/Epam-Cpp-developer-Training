@@ -14,6 +14,21 @@
 
 ✅ Operator Overloading Rules with Examples in C++ :--
   //Important :- Operator function must be non static except new and delete.
+🔧 Are They static?
+   Yes — when inside a class, they must be declared as static functions implicitly, even though you don’t write static:
+
+class MyClass {
+public:
+    static void* operator new(size_t);    // implicitly static
+    static void  operator delete(void*);  // implicitly static
+};
+
+| Feature                   | Overloadable? | Static?                                  |
+| ------------------------- | ------------- | ---------------------------------------- |
+| `operator new` / `delete` | ✅ Yes         | ✅ Implicitly static in class             |
+| Global `new` / `delete`   | ✅ Yes         | ❌ Not static (free functions)            |
+| Can access `this`?        | ❌ Never       | Because it's for allocation/deallocation |
+
 | **Rule**                                            | **Description**                                        | **Example**                                                          |
 | --------------------------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------- |
 | ✔ **Existing Operators Only**                       | You can only overload operators already defined in C++ | ✅ `operator+`, `operator==` <br> ❌ `operator**`, `operator%%`        |
