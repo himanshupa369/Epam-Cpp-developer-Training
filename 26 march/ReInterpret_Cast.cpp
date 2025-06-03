@@ -48,5 +48,9 @@ int main() {
     int* new_ptr = reinterpret_cast<int*>(addr); // Convert back to pointer
     cout << "Value at new pointer: " << *new_ptr << endl;
 
+    const int x=1;
+    int* p1=(int*)(&x); // c style cast allowed 
+    int* p11=reinterpret_cast<int*>(&x); //but it does not discard qualifier.
+
     return 0;
 }
