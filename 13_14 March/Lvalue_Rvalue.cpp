@@ -1,76 +1,92 @@
-/* ...Move Semantic... */
+//L value and R value
+/*
+| **Feature * *        | **L - value  Locator* *                                    | **R - value * *                                 |
+| ------------------ - | ------------------------------------------------ - | -------------------------------------------- -  |
+| **Name * *           | Has a name                                         | Does not have a name                            |
+| **Variable Type * *  | All variables are L - values                       | R - value is a temporary value                  |
+| **Assignment * *     | Can be assigned values                             | Cannot be assigned values                       |
+| **Expressions * *    | Some expressions return L - values                 | Some expressions return R - values              |
+| **Persistence * *    | Persists beyond the expression                     | Does not persist beyond the expression          |
+| **Function Return * *| Functions that return by reference return L - value| Functions that return by value return R - value |
+| **Reference Type * * | Reference to L - value(L - value reference)        | Reference to R - value(R - value reference)     |
 
-//Introduction...
+//R- value reference
 
-//In C++, move semantics is a feature introduced in C++11 that allows resources to be efficiently transferred from one object to another, instead of copying them.
-//This is particularly useful for expensive operations like managing dynamic memory, file handles, or other system resources.
-//Allow us to avoid unnecessary copy of objects when working with temporary object.
+| **Feature**                | **Description**                               |
+| -------------------------- | --------------------------------------------- |
+| **Definition**             | A reference created to a temporary            |
+| **Represents**             | A temporary value                             |
+| **Syntax**                 | Created with `&&` operator                    |
+| **Can Bind To**            | Only R-values (temporaries)                   |
+| **Cannot Bind To**         | L-values                                      |
+| **Binding Rule**           | R-value references always bind to temporaries |
+| **L-value Reference Rule** | L-value references (&) always bind to L-values    |
 
-//Why Move Semantics?
+int&& ref=5+3
+int& ref1=x;
+*/
 
-//When an object is copied, a deep copy is typically performed, which means duplicating all resources.However,
-//in some cases(like returning objects from functions), creating a copy is wasteful.Move semantics allows transferring ownership of resources instead of duplicating them.
-
-//When are Move Semantics Used ?
-
-//Returning objects from functions(avoid unnecessary copies).
-//When passing temporary objects.
-//Optimizing large data structures like vectors, strings, etc.
-
-// lvalue...
-
-// A value that resides in memory(heap/stack).
-// lvalue is addressable.
-// Can't be moved.But modifiable.
-// int i=5; int* p1=&i (Possible) but int* p2=&5 (not possible).
-// Simply any value left to the assignment operator ("=") is called lvalue.But not in every cases.
-
-// rvalue...
-
-// A value that's not a lvalue.
-// It resides always to the right of assignment expression such as a literal or a temporary which is intended to be non modifiable.
-// Can be move.  int i=5 (5 is rvalue.) : A a= A() ( A() is rvalue.).
-
-// lvalue references...
-
-// Normal / Old value reference.
-// Can be bound to only  lvalues but not on rvalues.
-// however we can bind an rvalues to a const  lvalue references.
-// example:- int i=10; (correct)
-//           int& x = i; (correct)
-//           int &x1=10; (incorrect)
-//           int ans=foo(10) (incorrect) if( foo(int& lr)  )
-//           cont int& x2=10; (correct)
-
-// rvalue references...
-
-// Introduced in c++ 11 standard.
-// Bind only to rvalues.
-// represented by &&.
-// An expression is an rvalue if it results in  a temporary object.
-// example:- int a=10;(coorect)
-//           int&& rr=10; (correct)
-//           int&& rr1=foo(10) (correct) if( foo(int&& rr2)  )
+//#include <iostream>
 //
-
-#include<iostream>
-using namespace std;
-
-void fun(int& a) {
-	cout << "lvalue called: a= " << a << endl;
-}
-
-void fun(int&& a1) {
-	cout << "rvalue called: a1= " << a1 << endl;
-}
-void fun(const int& a2) {
-	cout << "const lvalue: a2= " << a2 << endl;
-}
-int main() {
-	int i = 10;
-	fun(i);
-	fun(10);
-	fun(std::move(i)); //( "move()" convert lvalue into rvalue)
-	fun(static_cast<int&&>(i));
-	return 0;
-}
+//// Returns r-value
+//int Add(int x, int y) {
+//    return x + y;
+//}
+//
+//// Returns l-value
+//int& Transform(int& x) {
+//    x *= x;
+//    return x;
+//}
+//
+//// Print accepts l-value reference
+//void Print(int& x) {
+//    std::cout << "Lvalue : Print(int&)" << std::endl;
+//}
+//
+//// Print accepts const l-value reference
+//void Print(const int& x) {
+//    std::cout << "Const Lvalue: Print(const int&)" << std::endl;
+//}
+//
+// //Print accepts r-value reference
+//void Print(int&& x) {
+//    std::cout << "Rvalue : Print(int&&)" << std::endl;
+//}
+//
+//int main() {
+//    // x is an l-value
+//    int x = 10;
+//    int y=x;
+//    int z=5+3;
+//    // ref is an l-value reference
+//    int& ref = x;
+//
+//    // Transform returns an l-value
+//    int& ref2 = Transform(x);
+//
+//    // rv is an r-value reference
+//    int&& rv = 8;
+//
+//    // Add returns a temporary (r-value)
+//    int&& rv2 = Add(3, 5);
+//
+//    // The following lines would cause an error because an l-value cannot bind to an r-value reference
+//     /*int var = 0;
+//     int &&r1 = var;*/
+//
+//    // But an l-value can bind to a const l-value reference
+//    const int& r2 = 3;
+//
+//    // Function call demonstrations
+//    int i = 10;
+//    Print(i);                        // L-value
+//    Print(10);                       // R-value
+//    Print(std::move(i));            // move() converts l-value into r-value
+//    Print(static_cast<int&&>(i));   // Explicit cast to r-value reference
+//    //Note:- static_cast and move both perform same operation ,
+//    //But we use it most of the time as move just avoid ambiguity and increase readability.
+// 
+//
+//    return 0;
+//}
