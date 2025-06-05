@@ -279,5 +279,66 @@ int main() {
 // Deleter :-
 Smart pointer does not invoke delete they always invoke deleter call back.
 
-  
+#include<iostream>
+#include<memory>
+#include<cstdlib>
 
+struct Free {
+	void operator ()(int *p) {
+		free(p);
+		std::cout << "pointer Freed\n";
+	}
+};
+void MallocDeleter(int* p) {
+	free(p);
+	std::cout << "MallocDeleter called/ Pointer Freed" << std::endl;
+}
+void UniquePtrDeleters() {
+	// In case of UniquePtrDeleters we need to use of Custom deleter name inside declaration.
+
+	//syntax :-std::unique_ptr<int, Deleter_name > p{ (int*)malloc(4),deleter Object/Temporary Object };
+	std::unique_ptr<int, Free> p{ (int*)malloc(4),Free{} };
+	//using function pointer
+	//std::unique_ptr<int, void (*)(int*)> p{ (int*)malloc(4),MallocDeleter };
+	*p = 100;
+	std::cout << *p << '\n';
+}
+void SharedPtrDeleters() {
+	//But not in case of SharedPtr.
+
+	//syntax :-std::unique_ptr<int, Deleter_name > p{ (int*)malloc(4),deleter Object/Temporary Object };
+	//std::shared_ptr<int> p{ (int*)malloc(4),Free};
+	//using function pointer
+	std::shared_ptr<int> p{(int*)malloc(4),MallocDeleter};
+	*p = 100;
+	std::cout << *p << '\n';
+}
+int main() {
+	SharedPtrDeleters();
+	UniquePtrDeleters();
+}
+
+//Dynamic Array using smart pointers
+#include<cstdlib>
+#include<iostream>
+
+int main() {
+	std::unique_ptr<int> arr{ new int[5]{1,2,3,4,5}};
+	//arr[0] = 10;
+	arr.get()[0] = 10;
+	//but in below case you can use arr[0]=10;
+	//std::unique_ptr<int[]> arr{ new int[5]{1,2,3,4,5}};
+	//in case of smart ptr we can use direct subscript in C++ 17 version and later version
+	//std::smart_ptr<int[]> arr{ new int[5] {1,2,3,4,5} }; => arr[0]=10;
+
+}
+  
+make_unique /make_shared  is a variadic template function which uses factory methods. 
+eliminate use of new in smart pointer to allocate something on heap
+make_shared store some extra infrmation So when we use it, it will allocate the memory for the control block and the underlying resource using
+one new call. And during destruction, there'll be only one delete call to delete both underlined resource and the control block.
+
+
+Now, there is one disadvantage when you use make() functions, there is no way to specify a custom deleter while using make() functions.
+So if you want to use a custom deleter with your smart pointer, you cannot use make() function, instead
+you have to construct the smart pointer and allocate the memory for your resource yourself.
