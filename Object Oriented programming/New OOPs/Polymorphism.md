@@ -7,14 +7,14 @@ It allows the same function name to behave differently depending on the object i
 
 <h3>Polymorphism</h3>
  
-Different forms of the function are provided.
-The call is resolved at compile time or runtime.
-Runtime polymorphism or dynamic binding.
-Implemented through virtual mechanism.
-Compiler inserts code to invoke the correct function at runtime.
-Automatically generated through the virtual keyword.
-Such functions are called polymorphic functions.
-Should be invoked only through a pointer or reference.
+*Different forms of the function are provided.
+*The call is resolved at compile time or runtime.
+*Runtime polymorphism or dynamic binding.
+*Implemented through virtual mechanism.
+*Compiler inserts code to invoke the correct function at runtime.
+*Automatically generated through the virtual keyword.
+*Such functions are called polymorphic functions.
+*Should be invoked only through a pointer or reference.
  
 ---
 
