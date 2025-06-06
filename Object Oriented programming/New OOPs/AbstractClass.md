@@ -1,6 +1,10 @@
 ---
+title: Abstract Classes & Pure Virtual Functions – Quick Notes
+date: 2025-06-05
+layout: post
+---
 
-## 🔹 Abstract Classes & Pure Virtual Functions – Quick Notes
+---
 
 ### 🧩 **1. Problem with Default Virtual Functions**
 
