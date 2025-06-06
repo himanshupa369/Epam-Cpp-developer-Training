@@ -202,5 +202,90 @@ Important Points :-
 | Do UDLs affect performance?              | No, especially with `constexpr`, they are compile-time operations.                                      |
 | Which types can be used with operator""? | `unsigned long long`, `long double`, `const char*`, `char`, etc.                                        |
 
+//constexpr
 
+✅ constexpr in C++ – Complete Theory + Code Examples
+constexpr is a keyword introduced in C++11 (and improved in C++14/17/20) that tells the compiler:
+“This function or variable can be evaluated at compile time.”
+properties :-
+* Represents an expression that is constant
+* Such expressions are possibly evaluated at compile time
+* Can be applied to variable declarations or functions
+* May increase the performance of the code as computation is done at compile time
+/* 
+Constant Expression Function rules:
+1. SHould accept and return literals types only
+(void,scalar types (int,float,char),references,etc....)
+2. Should contain only single line statement that should be a single return statement.
+(if you return something using if else then it shows error because more than 2 return statements.)
+3. constexpre always work as a inline function.
+*/
+
+🔹 Why Use constexpr?
+Improves performance by doing computations at compile time.
+Enables use in constant expressions, like array sizes, template parameters, etc.
+Safer and clearer than #define macros or const.
+
+✅ constexpr Rules Overview
+
+| Context      | Meaning                                                          |
+| ------------ | ---------------------------------------------------------------- |
+| Variable     | Value must be **known at compile time**                          |
+| Function     | Can be evaluated at compile time **if all inputs are constexpr** |
+| Constructor  | Allows creation of **constexpr objects**                         |
+| if-constexpr | Compile-time `if` (C++17 onward)                                 |
+
+🔹 1. constexpr Variable
+constexpr int size = 10;
+int arr[size];  // OK, evaluated at compile time
+
+🔹 2. constexpr Function
+constexpr int square(int x) {
+    return x * x;
+}
+constexpr int Add(int a,int b) {
+    return a + b;
+}
+
+int main() {
+    constexpr int result = square(5);   // Compile-time :: constexpr function
+    const int res=square(3); // It also behave like constexpr function
+    int x = 6;
+    int runtimeResult = square(x);     // Runtime Behave like normal function (if x isn't constexpr)
+    // note:- constexpr always except const values in right side of function call  
+    // constexpr int sum=Add(3,5); works fine but Add(x,5) will gie error
+}
+
+🔹 3. constexpr Class & Constructor (C++11+)
+struct Point {
+    int x, y;
+    constexpr Point(int a, int b) : x(a), y(b) {}
+    constexpr int sum() const { return x + y; }
+};
+
+int main() {
+    constexpr Point p(3, 4);
+    constexpr int s = p.sum();  // OK at compile time
+}
+
+🔹 4. if constexpr (C++17)
+template<typename T>
+void printTypeSize() {
+    if constexpr (std::is_integral<T>::value) {
+        std::cout << "Integral type: " << sizeof(T) << "\n";
+    } else {
+        std::cout << "Not integral type\n";
+    }
+}
+
+🔍 Differences: constexpr vs const :-
+
+| Feature                    | `constexpr`                   | `const`                         |
+| -------------------------- | ----------------------------- | ------------------------------- |
+| Time                       | Compile-time only             | Can be compile-time or runtime  |
+| Functions                  | Yes (can define constexpr fn) | No                              |
+| Safer for arrays/templates | ✅ Yes                         | ❌ Not always                    |
+| Use in switch              | ✅ Always                      | ✅ Only if compile-time constant |
+
+   
 
