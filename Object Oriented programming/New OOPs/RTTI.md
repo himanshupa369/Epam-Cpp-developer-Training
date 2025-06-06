@@ -109,4 +109,17 @@ if (typeid(*p) == typeid(Savings)) {
 * Better practice: use **virtual functions** or **interface-based design** to expose required behavior through base class itself.
 
 ---
+---
+### 🔍 typeid vs dynamic_cast
+
+| Feature          | `typeid`                     | `dynamic_cast`                               |
+| ---------------- | ---------------------------- | -------------------------------------------- |
+| Returns          | `type_info` object           | Pointer or reference                         |
+| Used For         | Type **checking**            | Type **conversion (downcasting)**            |
+| On invalid cast  | Still runs, comparison fails | Returns `nullptr` (pointers) / throws (refs) |
+| Works On         | Polymorphic types at runtime | Polymorphic types only                       |
+| Runtime Overhead | Light                        | Higher (checks hierarchy)                    |
+
+
+---
 
