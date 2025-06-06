@@ -39,24 +39,25 @@ int main() {
    std::vector<int> v2(5);  // Vector of size 5 (default-initialized elements)
    std::vector<int> v3(5, 100);  // Vector of size 5, all initialized to 100
    std::vector<int> v4 = { 1, 2, 3, 4, 5 };  // Initialization list
+   std::vector<int> v5{1,2,3,4,5};
    /*
-   push_back(value)	   Adds an element at the end
-   pop_back()	           Removes the last element
-   insert(pos, value)	   Inserts an element at a specific position
-   erase(pos)	           Removes an element at a specific position
+   push_back(value)	      Adds an element at the end
+   pop_back()	            Removes the last element
+   insert(pos, value)	   Inserts an element at a specific position (it requires iterator)
+   erase(pos)	            Removes an element at a specific position (it requires iterator)
    clear()	               Removes all elements
-   resize(new_size)	   Resizes the vector
+   resize(new_size)	      Resizes the vector
 
-*** shrink_to_fit()	       Reduces capacity to fit the current size ***
+*** shrink_to_fit()	      Reduces capacity to fit the current size ***
    front()	               First element
    back()	               Last element
    data()             	   Pointer to raw array
-   v[i]	               Direct access (No bound checking)
+   v[i]	                  Direct access (No bound checking)
    v.at(i)	               Access with bound checking
    size()	               Returns the number of elements
-   capacity()	           Returns allocated memory size
+   capacity()	            Returns allocated memory size
    empty()	               Returns true if vector is empty
-   reserve(n)	           Pre-allocates memory for n elements
+   reserve(n)	            Pre-allocates memory for n elements
    */
    std::vector<int> v = { 10, 20, 30, 40 };
    std::cout << v[2] << std::endl;       // Output: 30 (No bound check)
@@ -106,3 +107,5 @@ int main() {
    // Using emplace_back()
    students.emplace_back("Bob", 22);  // No temporary object, constructed in place
 }
+
+// vector :-
