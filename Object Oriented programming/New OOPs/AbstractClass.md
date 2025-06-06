@@ -102,7 +102,7 @@ virtual void Serialize() = 0 {
 ---
 ---
 ### 🔹 Why Use = 0 in C++ for Pure Virtual Functions?
-###✅ Purpose of = 0:
+✅ Purpose of = 0:
  *In C++, writing = 0 in a virtual function declaration explicitly tells the compiler:<br>
 
  “This function has no implementation here, and must be implemented by derived classes.”
