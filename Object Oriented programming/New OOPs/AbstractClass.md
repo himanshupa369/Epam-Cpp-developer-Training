@@ -1,13 +1,13 @@
 ---
-title: Abstract Classes & Pure Virtual Functions – Quick Notes
-date: 2025-06-05
-layout: post
+Title: Abstract Classes & Pure Virtual Functions 
+Date: 2025-06-05
+Layout: Notes
 ---
 
-## 🔹 Abstract Classes & Pure Virtual Functions – Quick Notes
+## 🔹 Abstract Classes & Pure Virtual Functions 
 
 ### 🧩 **1. Problem with Default Virtual Functions**
-...
+---
 
 
 * Base class `Document` defines a `virtual void Serialize()`.
