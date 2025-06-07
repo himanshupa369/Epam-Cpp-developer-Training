@@ -113,6 +113,8 @@
 * ❌ Don't mix unrelated logic (e.g., file I/O and business rules in one class).
 * ✅ Keeps code **modular**, **testable**, and **easy to refactor**.
 
+#🏠 Analogy:
+A chef cooks food. A cashier handles billing. You wouldn't want a chef to handle payments too.
 ---
 
 ### **2. Open/Closed Principle (OCP)**
@@ -122,6 +124,8 @@
 * 📦 Add new functionality via **inheritance**, **virtual functions**, or **templates** — not by changing existing code.
 * ✅ Encourages **extensible** design while protecting **existing code** from bugs.
 
+#🏠 Analogy:
+A USB port allows new devices to be added without changing the port itself.
 ---
 
 ### **3. Liskov Substitution Principle (LSP)**
@@ -132,6 +136,8 @@
 * ✅ Promotes **polymorphism** and avoids runtime surprises.
 * ❌ Don't violate expected behavior in a subclass (e.g., override but ignore a method's expected outcome).
 
+#🏠 Analogy:
+You can use a credit card or debit card at the ATM – both follow the same interface.
 ---
 
 ### **4. Interface Segregation Principle (ISP)**
@@ -142,6 +148,8 @@
 * ✅ Improves **modularity** and **testability**.
 * ❌ Don’t make a class implement unrelated methods just because they exist in a large interface.
 
+#🏠 Analogy:
+A printer that only prints shouldn’t be forced to support scanning.
 ---
 
 ### **5. Dependency Inversion Principle (DIP)**
@@ -152,6 +160,8 @@
 * ✅ Use **abstract classes** or **interfaces**, and inject them as dependencies (via constructor or setter).
 * 🛠️ Enables **flexible architecture** (e.g., switch from file-based logging to database logging without changing business logic).
 
+#🏠 Analogy:
+A TV remote doesn't care whether you're using a Sony or LG TV, as long as both follow the "IR protocol."
 ---
 
 
