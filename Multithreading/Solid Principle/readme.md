@@ -97,6 +97,62 @@
       </tr>
     </tbody>
   </table>
-</body>
+  </body>
 </html>
+---
+
+## ✅ Core Design Principles in C++ (SOLID)
+
+---
+
+### **1. Single Responsibility Principle (SRP)**
+
+> **A class should have only one reason to change.**
+
+* 🛠️ Each class/function should handle a single part of the functionality.
+* ❌ Don't mix unrelated logic (e.g., file I/O and business rules in one class).
+* ✅ Keeps code **modular**, **testable**, and **easy to refactor**.
+
+---
+
+### **2. Open/Closed Principle (OCP)**
+
+> **Software entities should be open for extension but closed for modification.**
+
+* 📦 Add new functionality via **inheritance**, **virtual functions**, or **templates** — not by changing existing code.
+* ✅ Encourages **extensible** design while protecting **existing code** from bugs.
+
+---
+
+### **3. Liskov Substitution Principle (LSP)**
+
+> **Derived classes must be substitutable for their base classes.**
+
+* 🧠 Any instance of a base class should be replaceable with a derived class without altering program behavior.
+* ✅ Promotes **polymorphism** and avoids runtime surprises.
+* ❌ Don't violate expected behavior in a subclass (e.g., override but ignore a method's expected outcome).
+
+---
+
+### **4. Interface Segregation Principle (ISP)**
+
+> **Clients should not be forced to depend on interfaces they do not use.**
+
+* 🧩 Split **fat interfaces** into smaller, focused ones.
+* ✅ Improves **modularity** and **testability**.
+* ❌ Don’t make a class implement unrelated methods just because they exist in a large interface.
+
+---
+
+### **5. Dependency Inversion Principle (DIP)**
+
+> **Depend on abstractions, not on concrete implementations.**
+
+* 🎯 High-level modules shouldn't depend on low-level modules.
+* ✅ Use **abstract classes** or **interfaces**, and inject them as dependencies (via constructor or setter).
+* 🛠️ Enables **flexible architecture** (e.g., switch from file-based logging to database logging without changing business logic).
+
+---
+
+
 
