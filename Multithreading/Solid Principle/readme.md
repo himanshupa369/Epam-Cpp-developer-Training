@@ -165,4 +165,110 @@ A TV remote doesn't care whether you're using a Sony or LG TV, as long as both f
 ---
 
 
+**YAGNI**, **KISS**, and **DRY** — three of the most **widely followed coding principles** that promote clean, efficient, and maintainable code.
+
+---
+
+## 🔁 **Quick Summary Table**
+
+| Principle | Stands For               | Key Idea                                              | Real-Life Analogy                                   |
+| --------- | ------------------------ | ----------------------------------------------------- | --------------------------------------------------- |
+| **YAGNI** | You Aren’t Gonna Need It | Don’t add functionality until it’s actually needed    | Don’t pack winter clothes for a beach trip          |
+| **KISS**  | Keep It Simple, Stupid   | Prefer simple and readable solutions over clever ones | A simple calculator over a rocket to add numbers    |
+| **DRY**   | Don’t Repeat Yourself    | Eliminate duplicate code by reusing logic             | One recipe card for all apple pies, not one per pie |
+
+---
+
+## ✅ 1. **YAGNI – You Aren’t Gonna Need It**
+
+> Only implement what's necessary now — not what *might* be needed later.
+
+### ❌ Bad Example:
+
+```cpp
+class User {
+public:
+    std::string name;
+    std::string getCountry() const { return "India"; } // Unused, unnecessary
+    void calculateLoyaltyPoints() {} // Premature logic
+};
+```
+
+* These functions are **never used** and add maintenance burden.
+
+### ✅ Good Example:
+
+```cpp
+class User {
+public:
+    std::string name;
+};
+```
+
+* Add `getCountry()` or `calculateLoyaltyPoints()` **only if needed** in the future.
+
+---
+
+## ✅ 2. **KISS – Keep It Simple, Stupid**
+
+> Simpler code is easier to read, debug, and maintain.
+
+### ❌ Bad Example:
+
+```cpp
+bool isEven(int n) {
+    return ((n ^ 1) == n + 1); // Bitwise trick – hard to read
+}
+```
+
+### ✅ Good Example:
+
+```cpp
+bool isEven(int n) {
+    return n % 2 == 0; // Clear and simple
+}
+```
+
+* Avoid clever hacks unless performance **really** demands it.
+
+---
+
+## ✅ 3. **DRY – Don’t Repeat Yourself**
+
+> Reuse code instead of copying it in multiple places.
+
+### ❌ Bad Example:
+
+```cpp
+double calculateCircleArea(double r) {
+    return 3.14 * r * r;
+}
+
+double calculateSphereSurfaceArea(double r) {
+    return 4 * 3.14 * r * r;
+}
+```
+
+### ✅ Good Example:
+
+```cpp
+constexpr double PI = 3.14;
+
+double square(double x) {
+    return x * x;
+}
+
+double calculateCircleArea(double r) {
+    return PI * square(r);
+}
+
+double calculateSphereSurfaceArea(double r) {
+    return 4 * PI * square(r);
+}
+```
+
+
+
+
+
 
