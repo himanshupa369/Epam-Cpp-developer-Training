@@ -593,5 +593,247 @@ if (lock.owns_lock()) {
 ```
 
 ---
+---
+
+## ✅ Interview Questions on `std::timed_mutex` in C++
+
+---
+
+### 🔸 1. **What is `std::timed_mutex` in C++?**
+
+**Answer:**
+`std::timed_mutex` is a mutex that allows threads to try acquiring the lock **with a time limit**.
+Unlike `std::mutex`, it provides `try_lock_for()` and `try_lock_until()` methods.
+
+---
+
+### 🔸 2. **Which header is required for `std::timed_mutex`?**
+
+**Answer:**
+
+```cpp
+#include <mutex>
+```
+
+---
+
+### 🔸 3. **What are the main methods of `std::timed_mutex`?**
+
+| Method             | Description                      |
+| ------------------ | -------------------------------- |
+| `lock()`           | Blocks until locked              |
+| `try_lock()`       | Tries to lock immediately        |
+| `try_lock_for()`   | Waits for specified duration     |
+| `try_lock_until()` | Waits until specified time point |
+
+---
+
+### 🔸 4. **When would you use `std::timed_mutex` instead of `std::mutex`?**
+
+**Answer:**
+Use `timed_mutex` when you want to avoid blocking **forever** and instead want the thread to:
+
+* Wait only a **limited time**
+* Abort or fallback if lock is unavailable
+* Prevent **deadlock** risk with retry or timeout logic
+
+---
+
+### 🔸 5. **What is the difference between `try_lock_for()` and `try_lock_until()`?**
+
+| Feature       | `try_lock_for()`        | `try_lock_until()`                 |
+| ------------- | ----------------------- | ---------------------------------- |
+| Wait type     | Relative (e.g., 100ms)  | Absolute (e.g., until time\_point) |
+| Argument type | `std::chrono::duration` | `std::chrono::time_point`          |
+
+---
+
+### 🔸 6. **Can `std::lock_guard` or `std::unique_lock` be used with `std::timed_mutex`?**
+
+**Answer:**
+
+* `std::lock_guard` can be used, but **only for basic `lock()` and unlock.**
+* `std::unique_lock` supports **timed locking** when constructed with `std::defer_lock` and then calling `try_lock_for()` or `try_lock_until()`.
+
+---
+
+### 🔸 7. **Give an example of `try_lock_for()` usage.**
+
+```cpp
+#include <iostream>
+#include <thread>
+#include <mutex>
+#include <chrono>
+
+std::timed_mutex tm;
+
+void attempt_locking() {
+    if (tm.try_lock_for(std::chrono::milliseconds(100))) {
+        std::cout << "Lock acquired\n";
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        tm.unlock();
+    } else {
+        std::cout << "Timeout: Could not acquire lock\n";
+    }
+}
+```
+
+---
+
+### 🔸 8. **What happens if `try_lock_for()` times out?**
+
+**Answer:**
+It returns `false` and **does not acquire the lock**. The thread can retry, skip the operation, or log failure.
+
+---
+
+### 🔸 9. **What is the performance overhead of `timed_mutex` vs `mutex`?**
+
+**Answer:**
+`std::timed_mutex` is slightly heavier than `std::mutex` due to **timing logic**.
+Use it only when timeout control is needed.
+
+---
+
+### 🔸 10. **Is `std::timed_mutex` copyable or movable?**
+
+**Answer:**
+No. Like `std::mutex`, `timed_mutex` is **non-copyable and non-movable** to prevent misuse.
+
+---
+
+### 🔸 11. **What happens if a thread tries `try_lock_for()` after the mutex is already locked by itself?**
+
+**Answer:**
+It results in **undefined behavior**, unless a `recursive_timed_mutex` is used.
+`std::timed_mutex` is **non-recursive** — a thread must not lock it more than once.
+
+---
+
+---
+
+## ✅ Interview Questions on `std::recursive_mutex` in C++
+
+---
+
+### 🔸 1. **What is `std::recursive_mutex` in C++?**
+
+**Answer:**
+`std::recursive_mutex` allows the **same thread to acquire the same mutex multiple times** without causing a deadlock. Each `lock()` call must be matched by a `unlock()`.
+
+---
+
+### 🔸 2. **What is the difference between `std::mutex` and `std::recursive_mutex`?**
+
+| Feature              | `std::mutex`          | `std::recursive_mutex`               |
+| -------------------- | --------------------- | ------------------------------------ |
+| Same thread re-lock? | ❌ Deadlock            | ✅ Allowed                            |
+| Use case             | Basic lock protection | Recursive function or reentrant code |
+| Overhead             | Low                   | Slightly higher                      |
+
+---
+
+### 🔸 3. **When should you use `std::recursive_mutex`?**
+
+**Answer:**
+Use it when:
+
+* A **function locks a mutex and calls itself recursively**, or
+* A function **calls another function** that tries to lock the same mutex
+
+---
+
+### 🔸 4. **Can `std::lock_guard` or `std::unique_lock` be used with `std::recursive_mutex`?**
+
+**Answer:**
+Yes. Both `std::lock_guard` and `std::unique_lock` can be used with `std::recursive_mutex` to simplify locking.
+
+```cpp
+std::recursive_mutex rmtx;
+
+void f() {
+    std::lock_guard<std::recursive_mutex> guard(rmtx);
+    // recursive safe logic
+    f(); // recursive call still safe
+}
+```
+
+---
+
+### 🔸 5. **What happens if a thread locks a `recursive_mutex` twice but unlocks only once?**
+
+**Answer:**
+The mutex remains **locked** until all matching `unlock()` calls are made.
+Not unlocking completely causes **deadlock** for other threads.
+
+---
+
+### 🔸 6. **How does `recursive_mutex` maintain re-entrancy?**
+
+**Answer:**
+Internally, it tracks:
+
+* Which **thread** owns the lock
+* How many **times** it has locked it
+  It allows the same thread to lock it again and increments a counter.
+
+---
+
+### 🔸 7. **What are the disadvantages of `recursive_mutex`?**
+
+**Answer:**
+
+* **More overhead** than `std::mutex`
+* Can **hide design flaws**, like unintended recursive locking
+* Potential for **unlock mismatches**
+
+---
+
+### 🔸 8. **What is `std::recursive_timed_mutex`?**
+
+**Answer:**
+It’s like `recursive_mutex`, but also supports:
+
+* `try_lock_for(duration)`
+* `try_lock_until(time_point)`
+
+Used when you want recursion + timeout capabilities.
+
+---
+
+### 🔸 9. **Give a simple code example showing recursive mutex usage.**
+
+```cpp
+#include <iostream>
+#include <mutex>
+
+std::recursive_mutex rmtx;
+
+void recursivePrint(int count) {
+    if (count <= 0) return;
+
+    rmtx.lock();
+    std::cout << "Count: " << count << "\n";
+    recursivePrint(count - 1);
+    rmtx.unlock();
+}
+
+int main() {
+    recursivePrint(3);
+    return 0;
+}
+```
+
+---
+
+### 🔸 10. **Should you use `recursive_mutex` in most multithreaded code?**
+
+**Answer:**
+No. Prefer `std::mutex` unless recursion or reentrant locking is **absolutely necessary**, because `recursive_mutex` can:
+
+* Add overhead
+* Hide bad locking structure
+
+---
 
 
