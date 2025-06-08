@@ -18,6 +18,14 @@ Initialization Types of Singleton:-
 A) Early initialization : In this method, class is initialized whether it is to be used or not.
 B) Lazy initialization  : In this method, class in initialized only when it is required.
 
+| Feature              | Eager Initialization      | Lazy Initialization            |
+| -------------------- | ------------------------- | ------------------------------ |
+| **When initialized** | Immediately               | On first use                   |
+| **Performance**      | May waste resources early | More efficient for unused data |
+| **Implementation**   | Simple                    | Slightly more complex          |
+| **Thread Safety**    | Easier                    | Requires care in multithreaded |
+
+
 */
 
 #include <iostream>
