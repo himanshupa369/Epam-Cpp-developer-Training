@@ -4,6 +4,7 @@
 // 0. Once a thread is started we wait for this thread to finish by calling join() function on thread object.
 // 1. Double join will result into program termination.
 // 2. If needed we should check thread is joinable before joining. ( using joinable() function)
+// 3.It block thread call.
 
 
 // DETACH NOTES
