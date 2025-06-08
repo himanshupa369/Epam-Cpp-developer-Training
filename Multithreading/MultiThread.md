@@ -200,8 +200,8 @@ During my internship, I used a shared vector in multiple threads without protect
 
 ---
 
-##🔸 **19.When would you prefer std::async over std::thread?**
-###✅ Use std::async when:
+###🔸 **19.When would you prefer std::async over std::thread?**<br>
+✅ Use std::async when:
 
 * You want simpler thread management
 * You need return values or exception propagation
