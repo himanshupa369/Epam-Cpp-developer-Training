@@ -6,6 +6,8 @@
 // 2. If it fails to lock any of the mutex then it will release all the mutex it locked before.
 // 3. If a call to try_lock results in an exception, unlock is called for any locked objects before rethrowing.
 
+// we could not use it with lock_guard but we can use with unique lock.
+
 //#include <mutex>
 //#include <thread>
 //#include <iostream>
