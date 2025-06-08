@@ -208,4 +208,390 @@ During my internship, I used a shared vector in multiple threads without protect
 * You don’t want to manage join() manually
 
 ---
+---
+
+### 🔹 **1. What is the purpose of `std::thread::join()` in C++?**
+
+✅ **Answer:**
+`join()` blocks the calling thread (usually `main`) until the thread finishes execution. It ensures the thread completes before the program exits.
+
+🧾 **Example:**
+
+```cpp
+void task() { std::cout << "Running...\n"; }
+
+int main() {
+    std::thread t(task);
+    t.join(); // Waits for 't' to finish
+}
+```
+
+---
+
+### 🔹 **2. What happens if you don’t call `join()` or `detach()` on a thread?**
+
+✅ **Answer:**
+If a thread object is **not joined or detached**, it leads to a **runtime error** (e.g., `std::terminate()` will be called when the destructor runs).
+
+---
+
+### 🔹 **3. What is `std::thread::detach()` used for?**
+
+✅ **Answer:**
+`detach()` allows the thread to run **independently in the background**. The thread becomes **detached from the thread object**, and resources are released automatically after execution.
+
+🧾 **Example:**
+
+```cpp
+void backgroundTask() { /* do something */ }
+
+int main() {
+    std::thread t(backgroundTask);
+    t.detach(); // No need to join
+}
+```
+
+> ❗ Be careful: you **can’t join a detached thread**, and there’s **no control or cleanup** after it.
+
+---
+
+### 🔹 **4. When should you use `detach()` instead of `join()`?**
+
+✅ **Answer:**
+Use `detach()` when:
+
+* The thread runs **indefinitely** or performs **background work**.
+* You **don’t need results** from the thread.
+* You want the thread to **run independently** of the main thread's lifetime.
+
+---
+
+### 🔹 **5. What is `joinable()` in `std::thread` and why is it important?**
+
+✅ **Answer:**
+`joinable()` checks if a thread has **an associated running thread** that hasn't been joined or detached yet. It returns `true` if the thread can be joined or detached.
+
+🧾 **Example:**
+
+```cpp
+std::thread t(task);
+
+if (t.joinable()) {
+    t.join();
+}
+```
+
+> Always check `joinable()` before calling `join()` or `detach()` to avoid **undefined behavior**.
+
+---
+
+### 🔹 **6. Can you call `join()` or `detach()` more than once on a thread?**
+
+❌ **No.** Calling `join()` or `detach()` **more than once** results in a **runtime exception** or **undefined behavior**.
+
+---
+
+### 🔹 **7. What happens if you destroy a thread object that is still joinable?**
+
+❗ **Answer:**
+It causes the program to call `std::terminate()` and crash.
+
+🛡️ **Best Practice:**
+Always check `joinable()` before destruction:
+
+```cpp
+std::thread t(task);
+if (t.joinable()) t.join(); // Safe cleanup
+```
+
+---
+
+### 🔹 **8. Can `join()` and `detach()` be used together on the same thread?**
+
+❌ **No.** Once you call either `join()` or `detach()`, the thread is no longer joinable. Attempting to use both leads to an error.
+
+---
+
+### 🔹 **9. In what situation is `joinable()` false?**
+
+✅ **Answer:**
+`joinable()` is `false` when:
+
+* The thread has not been started (default-constructed)
+* The thread has been **joined**
+* The thread has been **detached**
+* The thread object has been **moved from**
+
+---
+
+### 🔹 **10. What happens if you try to `join()` a thread that is not joinable?**
+
+❗ **Answer:**
+It throws a `std::system_error` exception at runtime.
+
+---
+---
+
+## ✅ **Interview Questions on `mutex` in C++**
+
+---
+
+### 🔸 1. **What is a `mutex` in C++? Why is it used?**
+
+**Answer:**
+A `mutex` (short for *mutual exclusion*) is used to protect **critical sections** — shared data that must not be accessed simultaneously by multiple threads. It ensures **only one thread can access the resource at a time**.
+
+---
+
+### 🔸 2. **How do you use `std::mutex` in C++?**
+
+**Answer:**
+
+```cpp
+std::mutex mtx;
+
+void threadFunc() {
+    mtx.lock();
+    // critical section
+    mtx.unlock();
+}
+```
+
+Or better:
+
+```cpp
+std::lock_guard<std::mutex> guard(mtx); // automatic unlock on scope exit
+```
+
+---
+
+### 🔸 3. **What is `std::lock_guard` and why is it preferred?**
+
+**Answer:**
+`std::lock_guard` is an RAII wrapper around `std::mutex`. It automatically locks the mutex when created and unlocks it when it goes out of scope — avoiding manual `lock()`/`unlock()` errors.
+
+---
+
+### 🔸 4. **What is the difference between `std::lock_guard` and `std::unique_lock`?**
+
+| Feature              | `lock_guard` | `unique_lock`        |
+| -------------------- | ------------ | -------------------- |
+| Simpler, faster      | ✅            | ❌ (slightly heavier) |
+| Manual lock/unlock   | ❌            | ✅                    |
+| Use with cond. vars? | ❌            | ✅                    |
+
+---
+
+### 🔸 5. **What is a deadlock? How can you prevent it when using mutexes?**
+
+**Answer:**
+A **deadlock** occurs when two or more threads are waiting on each other to release a resource, but none do.
+
+**Prevention Techniques:**
+
+* Always lock multiple mutexes in the **same order**.
+* Use `std::lock()` to lock multiple mutexes atomically.
+* Avoid nested locking when possible.
+
+---
+
+### 🔸 6. **What happens if one thread locks a mutex and another tries to lock it too?**
+
+**Answer:**
+The second thread will **block and wait** until the first thread unlocks the mutex.
+
+---
+
+### 🔸 7. **What is `std::recursive_mutex`? When would you use it?**
+
+**Answer:**
+A `recursive_mutex` allows **the same thread** to lock the mutex multiple times without deadlock.
+Used when a function that locks the mutex is **called recursively**.
+
+```cpp
+std::recursive_mutex m;
+void f() {
+    m.lock();
+    // do something
+    f(); // recursive call
+    m.unlock();
+}
+```
+
+---
+
+### 🔸 8. **What is `std::try_lock()`? When is it useful?**
+
+**Answer:**
+`try_lock()` attempts to lock the mutex but returns immediately with `true/false` instead of blocking.
+
+Useful when:
+
+* You want to do something else if the lock is unavailable (non-blocking behavior).
+
+```cpp
+if (mtx.try_lock()) {
+    // do work
+    mtx.unlock();
+} else {
+    // skip or try later
+}
+```
+
+---
+
+### 🔸 9. **What happens if a mutex is not unlocked?**
+
+**Answer:**
+The mutex stays locked, blocking other threads indefinitely → leading to **deadlocks or starvation**.
+
+---
+
+### 🔸 10. **What is `std::scoped_lock` (C++17)?**
+
+**Answer:**
+`std::scoped_lock` can lock **multiple mutexes** simultaneously and safely, preventing deadlocks due to inconsistent locking order.
+
+```cpp
+std::mutex m1, m2;
+void f() {
+    std::scoped_lock lock(m1, m2);
+    // safe access
+}
+```
+
+---
+
+## 🔹 `try_lock()` – Interview Questions in C++
+
+---
+
+### 🔸 1. **What is `std::try_lock()` in C++?**
+
+**Answer:**
+`try_lock()` attempts to acquire the lock **without blocking**.
+If the mutex is already locked, it **returns immediately** with `false`.
+If it acquires the lock successfully, it returns `true`.
+
+---
+
+### 🔸 2. **What is the difference between `lock()` and `try_lock()`?**
+
+| Feature     | `lock()`             | `try_lock()`                |
+| ----------- | -------------------- | --------------------------- |
+| Blocking    | Yes (waits for lock) | No (returns immediately)    |
+| Return type | void                 | `bool`                      |
+| Use case    | When waiting is okay | When non-blocking is needed |
+
+---
+
+### 🔸 3. **When would you prefer `try_lock()` over `lock()`?**
+
+**Answer:**
+
+* When you don’t want the thread to **block/wait**.
+* In **polling situations**, **low-priority background tasks**, or to **avoid deadlock** by backing off.
+
+Example:
+
+```cpp
+if (mtx.try_lock()) {
+    // safe access
+    mtx.unlock();
+} else {
+    // Do something else, try again later
+}
+```
+
+---
+
+### 🔸 4. **What happens if two threads call `try_lock()` at the same time?**
+
+**Answer:**
+Only **one thread will acquire the lock** and get `true`; the other will get `false` immediately and must handle failure logic (like retrying or skipping work).
+
+---
+
+### 🔸 5. **Can `try_lock()` cause a deadlock?**
+
+**Answer:**
+It helps **avoid** deadlocks when locking **multiple mutexes**, as it does **not block**.
+
+Example:
+
+```cpp
+if (m1.try_lock()) {
+    if (m2.try_lock()) {
+        // safe work
+        m2.unlock();
+        m1.unlock();
+    } else {
+        m1.unlock();
+    }
+}
+```
+
+---
+
+### 🔸 6. **What is `std::try_lock(m1, m2, ...)` with multiple mutexes?**
+
+**Answer:**
+It’s an overload in `<mutex>` that tries to lock multiple mutexes **without deadlock**.
+It returns `-1` on success, or the index of the mutex that couldn’t be locked.
+
+```cpp
+int i = std::try_lock(m1, m2); // locks both or fails
+if (i == -1) {
+    // both locked successfully
+} else {
+    // handle lock failure at m[i]
+}
+```
+
+---
+
+### 🔸 7. **How would you use `try_lock()` in a performance-critical application?**
+
+**Answer:**
+Use it to:
+
+* Try grabbing the lock quickly without blocking critical threads
+* Avoid contention
+* Log failed attempts or apply backoff strategies
+
+---
+
+### 🔸 8. **What are the drawbacks of using `try_lock()`?**
+
+**Answer:**
+
+* It may result in **busy waiting (polling)** if not used carefully
+* Can lead to **unfair scheduling** or **starvation** for some threads
+* Requires **manual retry or alternative logic**
+
+---
+
+### 🔸 9. **Is `try_lock()` exception-safe?**
+
+**Answer:**
+Yes, but if you acquire the lock with `try_lock()`, make sure to **manually unlock** it, or better, use `std::unique_lock` with `defer_lock`.
+
+---
+
+### 🔸 10. **Can `try_lock()` be used with `std::lock_guard` or `std::unique_lock`?**
+
+**Answer:**
+
+* `std::lock_guard` does **not support** `try_lock()`.
+* `std::unique_lock` **does**:
+
+```cpp
+std::unique_lock<std::mutex> lock(mtx, std::try_to_lock);
+if (lock.owns_lock()) {
+    // locked successfully
+}
+```
+
+---
+
 
