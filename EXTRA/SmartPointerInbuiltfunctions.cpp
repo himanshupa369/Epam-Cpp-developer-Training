@@ -240,10 +240,10 @@ no circular ownership:-
 │ Employee object     │◄──────────────┐  │ Project object      │◄──────────────┐
 │ ref_count = 1       │               │  │ ref_count = 1       │               │
 │ m_prj ──────────────┼─────────────► │  │ m_emp ─weak_ptr─────┼──────┐        │
-└────────────────────┘               │  └────────────────────┘      ▼        │
-         ▲                            │            (no ownership)            │
-         └────────────────────────────┘                                      │
-     emp (shared_ptr<Employee>)              prj (shared_ptr<Project>)
+└────────────────────┘                │  └────────────────────┘       ▼        │
+         ▲                            │        (no ownership)                  │
+         └────────────────────────────┘                                        │
+     emp (shared_ptr<Employee>)                                  prj (shared_ptr<Project>)
 
 #include<iostream>
 #include<memory>
