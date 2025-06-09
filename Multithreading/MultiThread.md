@@ -1252,3 +1252,166 @@ int main() {
 
 ---
 
+---
+
+## 🔹 Basic Conceptual Questions
+
+### 1. **What is a `condition_variable` in C++?**
+
+> `std::condition_variable` is a synchronization primitive that allows threads to **wait until a condition is met**, typically used with `std::unique_lock<std::mutex>`.
+
+---
+
+### 2. **What is the purpose of `condition_variable`?**
+
+> To **block a thread** until another thread **notifies** it that some condition has changed — used in **producer-consumer**, **thread coordination**, etc.
+
+---
+
+### 3. **What are the main functions of `std::condition_variable`?**
+
+* `wait()`
+* `notify_one()`
+* `notify_all()`
+* `wait_for()`
+* `wait_until()`
+
+---
+
+### 4. **What is the difference between `notify_one()` and `notify_all()`?**
+
+| Function       | Behavior                     |
+| -------------- | ---------------------------- |
+| `notify_one()` | Wakes up one waiting thread  |
+| `notify_all()` | Wakes up all waiting threads |
+
+---
+
+### 5. **Can you use `condition_variable` without a mutex?**
+
+> ❌ **No**. A mutex is required to protect the shared condition and to work correctly with `wait()`.
+
+---
+
+## 🔸 Code-Based Questions
+
+### 6. **Write a simple producer-consumer example using `condition_variable`.**
+
+```cpp
+#include <iostream>
+#include <mutex>
+#include <condition_variable>
+#include <queue>
+#include <thread>
+
+std::queue<int> buffer;
+std::mutex mtx;
+std::condition_variable cv;
+const unsigned int MAX = 10;
+
+void producer() {
+    for (int i = 0; i < 20; ++i) {
+        std::unique_lock<std::mutex> lock(mtx);
+        cv.wait(lock, [] { return buffer.size() < MAX; });
+
+        buffer.push(i);
+        std::cout << "Produced: " << i << '\n';
+
+        cv.notify_one();  // Notify consumer
+    }
+}
+
+void consumer() {
+    for (int i = 0; i < 20; ++i) {
+        std::unique_lock<std::mutex> lock(mtx);
+        cv.wait(lock, [] { return !buffer.empty(); });
+
+        int value = buffer.front();
+        buffer.pop();
+        std::cout << "Consumed: " << value << '\n';
+
+        cv.notify_one();  // Notify producer
+    }
+}
+
+int main() {
+    std::thread t1(producer);
+    std::thread t2(consumer);
+    t1.join();
+    t2.join();
+}
+```
+
+---
+
+### 7. **What does `cv.wait(lock, predicate)` do?**
+
+> It waits **only if the predicate returns false**. Prevents **spurious wakeups** and reduces unnecessary blocking.
+
+---
+
+## 🔸 Practical Understanding
+
+### 8. **What is a spurious wakeup?**
+
+> A thread may **wake up from `wait()` without being notified**. That’s why the condition is usually **checked in a loop or using `wait(lock, predicate)`**.
+
+---
+
+### 9. **How is `condition_variable` different from `sleep()` or `busy waiting`?**
+
+| Method               | Blocking Type | CPU Usage           |
+| -------------------- | ------------- | ------------------- |
+| `sleep()`            | Time-based    | Low                 |
+| `busy waiting`       | CPU spins     | High                |
+| `condition_variable` | Event-driven  | Efficient (low CPU) |
+
+---
+
+### 10. **Can a `condition_variable` be copied?**
+
+> ❌ No. `std::condition_variable` is **non-copyable and non-movable**.
+
+---
+
+### 11. **Why do we use `unique_lock` instead of `lock_guard` with `condition_variable`?**
+
+> Because `cv.wait()` requires the lock to be **releasable and reacquirable**, which `lock_guard` does **not support**, but `unique_lock` does.
+
+---
+
+### 12. **What happens if notify is called before wait?**
+
+> If `notify_one()` is called **before any thread calls `wait()`**, the notification is **lost**, and the thread may wait forever.
+
+---
+
+## 🔸 Situational/Debugging Questions
+
+### 13. **Your thread is stuck on `wait()`. What could be the reasons?**
+
+* The **predicate is never satisfied**.
+* **Notify was called before wait.**
+* **Mutex is not correctly locked.**
+* **Deadlock** occurred elsewhere.
+
+---
+
+### 14. **What are the advantages of `condition_variable` over polling or flags?**
+
+* More **efficient** (no CPU waste).
+* Provides **proper thread coordination**.
+* Supports **wait-for-condition** model.
+
+---
+
+## 🧠 Bonus (Advanced Concept)
+
+### 15. **What is `std::condition_variable_any`?**
+
+> Works like `condition_variable`, but can work with **any lockable type**, not just `std::unique_lock<std::mutex>`.
+
+---
+
+
+
