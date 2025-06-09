@@ -836,4 +836,419 @@ No. Prefer `std::mutex` unless recursion or reentrant locking is **absolutely ne
 
 ---
 
+---
+
+## ✅ Interview Questions on `std::lock_guard` in C++
+
+---
+
+### 🔸 1. **What is `std::lock_guard` in C++?**
+
+**Answer:**
+`std::lock_guard` is a **RAII-based mutex wrapper** that automatically **acquires a lock** on construction and **releases it on destruction**. It simplifies mutex management and avoids forgetting `unlock()`.
+with the help of lock_guard we can not create try_lock().
+
+---
+
+### 🔸 2. **How is `std::lock_guard` better than manually calling `lock()` and `unlock()`?**
+
+**Answer:**
+
+* Prevents **deadlocks** from missing `unlock()` on exceptions or early return
+* Encourages **scoped locking**
+* Leads to **cleaner and safer code**
+
+---
+
+### 🔸 3. **What header file is needed for `lock_guard`?**
+
+**Answer:**
+
+```cpp
+#include <mutex>
+```
+
+---
+
+### 🔸 4. **What is the syntax of using `lock_guard`?**
+
+```cpp
+std::mutex mtx;
+
+void safeFunction() {
+    std::lock_guard<std::mutex> lock(mtx);
+    // critical section
+} // mtx automatically unlocked here
+```
+
+---
+
+### 🔸 5. **Can `lock_guard` be copied or moved?**
+
+**Answer:**
+No. `std::lock_guard` is **non-copyable and non-movable** to prevent multiple unlocks or inconsistent state.
+
+---
+
+### 🔸 6. **Can `lock_guard` be used with `std::recursive_mutex`?**
+
+**Answer:**
+Yes. You can use `lock_guard` with any type of mutex that provides `lock()` and `unlock()`, including `recursive_mutex`.
+
+---
+
+### 🔸 7. **What happens if the mutex is already locked when a `lock_guard` is constructed?**
+
+**Answer:**
+The thread **blocks** until the mutex becomes available (i.e., it behaves like `mutex.lock()`).
+
+---
+
+### 🔸 8. **Can you use `lock_guard` in functions that return early or throw exceptions?**
+
+**Answer:**
+Yes, and that's the main advantage!
+The `lock_guard` will **automatically release the mutex** when the function scope ends — even during exceptions or returns.
+
+---
+
+### 🔸 9. **What are common mistakes when using `lock_guard`?**
+
+**Answer:**
+
+* Using `lock_guard` outside of a scope (like global/static context)
+* Trying to manually unlock the mutex (`lock_guard` will do it automatically)
+* Attempting to copy or assign `lock_guard`
+
+---
+
+### 🔸 10. **How does `lock_guard` compare to `unique_lock`?**
+
+| Feature       | `lock_guard`             | `unique_lock`               |
+| ------------- | ------------------------ | --------------------------- |
+| Lightweight   | Yes                      | Slightly heavier            |
+| Flexibility   | No (immediate lock only) | Yes (defer, try\_lock, etc) |
+| Manual unlock | No                       | Yes                         |
+| Moveable      | No                       | Yes                         |
+
+---
+
+### 🔸 11. **Write a small code using `lock_guard` in a thread-safe way.**
+
+```cpp
+#include <iostream>
+#include <mutex>
+#include <thread>
+
+std::mutex mtx;
+
+void printSafe(int id) {
+    std::lock_guard<std::mutex> lock(mtx);
+    std::cout << "Thread " << id << " is running\n";
+}
+
+int main() {
+    std::thread t1(printSafe, 1);
+    std::thread t2(printSafe, 2);
+
+    t1.join();
+    t2.join();
+}
+```
+
+---
+
+---
+
+## ✅ Interview Questions on `std::unique_lock` in C++
+
+---
+
+### 🔸 1. **What is `std::unique_lock` in C++?**
+
+**Answer:**
+`std::unique_lock` is a flexible RAII-based mutex wrapper that gives more **control over locking behavior** compared to `lock_guard`.
+It supports:
+
+* Deferred locking
+* Timed locking
+* Unlocking and relocking
+* Moving
+
+---
+
+### 🔸 2. **Which header is required for `std::unique_lock`?**
+
+**Answer:**
+
+```cpp
+#include <mutex>
+```
+
+---
+
+### 🔸 3. **How is `unique_lock` different from `lock_guard`?**
+
+| Feature       | `std::lock_guard` | `std::unique_lock`     |
+| ------------- | ----------------- | ---------------------- |
+| Basic locking | ✅ Yes             | ✅ Yes                  |
+| Unlock/relock | ❌ No              | ✅ Yes                  |
+| Defer lock    | ❌ No              | ✅ Yes                  |
+| Timed locking | ❌ No              | ✅ Yes (`try_lock_for`) |
+| Movable       | ❌ No              | ✅ Yes                  |
+| Overhead      | Low               | Slightly higher        |
+
+---
+
+### 🔸 4. **What are different ways to construct a `unique_lock`?**
+
+```cpp
+std::mutex m;
+
+// Locks immediately
+std::unique_lock<std::mutex> lock1(m);
+
+// Defer locking
+std::unique_lock<std::mutex> lock2(m, std::defer_lock);
+lock2.lock(); // manual lock
+
+// Try to lock without blocking
+std::unique_lock<std::mutex> lock3(m, std::try_to_lock);
+
+// Adopt lock (mutex is already locked)
+m.lock();
+std::unique_lock<std::mutex> lock4(m, std::adopt_lock);
+```
+
+---
+
+### 🔸 5. **How can `unique_lock` be used for timed locking?**
+
+```cpp
+std::unique_lock<std::mutex> lock(mutex, std::defer_lock);
+if (lock.try_lock_for(std::chrono::milliseconds(100))) {
+    // Lock acquired
+} else {
+    // Timed out
+}
+```
+
+---
+
+### 🔸 6. **Can a `unique_lock` be moved to another lock object?**
+
+**Answer:**
+Yes, unlike `lock_guard`, `unique_lock` is **movable**, which makes it usable in containers and flexible designs.
+
+---
+
+### 🔸 7. **Can you unlock and relock using `unique_lock`?**
+
+**Answer:**
+Yes. It allows:
+
+```cpp
+lock.unlock();
+// do something unlocked
+lock.lock(); // lock again
+```
+
+---
+
+### 🔸 8. **What happens if `unique_lock` goes out of scope?**
+
+**Answer:**
+The held mutex is **automatically unlocked**, following RAII principles.
+
+---
+
+### 🔸 9. **When should you prefer `unique_lock` over `lock_guard`?**
+
+**Answer:**
+Use `unique_lock` when:
+
+* You need **defer or conditional locking**
+* You want to **unlock and relock** within a function
+* You need **timed locking** (e.g., `try_lock_for`)
+* You want to **move** the lock to another scope or thread
+
+---
+
+### 🔸 10. **Write a sample code using `std::unique_lock` with deferred lock.**
+
+```cpp
+#include <iostream>
+#include <mutex>
+#include <thread>
+
+std::mutex mtx;
+
+void work() {
+    std::unique_lock<std::mutex> lock(mtx, std::defer_lock);
+    // some prep work
+    lock.lock(); // lock when ready
+    std::cout << "Thread safely working\n";
+    lock.unlock();
+    // do other non-critical stuff
+}
+
+int main() {
+    std::thread t1(work);
+    std::thread t2(work);
+
+    t1.join();
+    t2.join();
+}
+```
+
+---
+
+### 🔸 11. **What precautions must you take when using `std::adopt_lock` with `unique_lock`?**
+
+**Answer:**
+Ensure the mutex is **already locked** before using `adopt_lock`, otherwise it leads to undefined behavior.
+Also, **do not lock it again** inside the constructor.
+
+---
+
+---
+
+## ✅  `defer_lock`, `try_to_lock`, and `adopt_lock` in C++
+
+---
+
+### 🔸 1. **What is `std::defer_lock` in C++?**
+
+**Answer:**
+`std::defer_lock` tells the lock wrapper **not to acquire the mutex immediately**.
+You can lock it manually later using `.lock()`.
+
+```cpp
+std::unique_lock<std::mutex> lock(mutex, std::defer_lock);
+// Do work
+lock.lock();  // Lock manually
+```
+
+---
+
+### 🔸 2. **What is `std::try_to_lock` in C++?**
+
+**Answer:**
+`std::try_to_lock` tries to **acquire the lock without blocking**.
+If the mutex is already locked, the lock fails.
+
+```cpp
+std::unique_lock<std::mutex> lock(mutex, std::try_to_lock);
+if (lock.owns_lock()) {
+    // Lock acquired
+} else {
+    // Failed to acquire lock
+}
+```
+
+---
+
+### 🔸 3. **What is `std::adopt_lock` in C++?**
+
+**Answer:**
+`std::adopt_lock` is used when the mutex is **already manually locked**.
+It tells the lock object to take ownership of that lock **without locking again**.
+
+```cpp
+mutex.lock(); // lock manually
+std::unique_lock<std::mutex> lock(mutex, std::adopt_lock); // take ownership
+```
+
+---
+
+### 🔸 4. **Why use `defer_lock` instead of normal locking?**
+
+**Answer:**
+Use `defer_lock` when:
+
+* You want **custom logic** before acquiring the lock
+* You want to lock **multiple mutexes** using `std::lock()` to avoid deadlocks
+
+---
+
+### 🔸 5. **What happens if you use `adopt_lock` without locking the mutex first?**
+
+**Answer:**
+**Undefined behavior.**
+The lock wrapper assumes the mutex is already locked and tries to unlock it during destruction, which can crash the program.
+
+---
+
+### 🔸 6. **Can these lock tags be used with `std::lock_guard`?**
+
+**Answer:**
+
+| Lock Tag      | `unique_lock` | `lock_guard` |
+| ------------- | ------------- | ------------ |
+| `defer_lock`  | ✅ Yes         | ❌ No         |
+| `try_to_lock` | ✅ Yes         | ❌ No         |
+| `adopt_lock`  | ✅ Yes         | ✅ Yes        |
+
+---
+
+### 🔸 7. **When would you use `try_to_lock` in real-world code?**
+
+**Answer:**
+When you want to **attempt to acquire a lock**, but if it's not available, you **skip or retry later** — useful in **non-blocking** or **low-priority** background tasks.
+
+---
+
+### 🔸 8. **Can `defer_lock` and `try_to_lock` be used together?**
+
+**Answer:**
+❌ No. You can only pass **one lock policy** (like `defer_lock`) at a time to a lock constructor.
+
+---
+
+### 🔸 9. **What happens if you move a `unique_lock` that used `defer_lock`?**
+
+**Answer:**
+It's allowed. The moved-to lock will inherit the **ownership and lock state** (locked or deferred) of the original.
+
+---
+
+### 🔸 10. **Code example: using all three**
+
+```cpp
+#include <iostream>
+#include <mutex>
+#include <thread>
+
+std::mutex mtx;
+
+void deferExample() {
+    std::unique_lock<std::mutex> lock(mtx, std::defer_lock);
+    // some work
+    lock.lock(); // manually lock later
+    std::cout << "Defer lock acquired\n";
+}
+
+void tryExample() {
+    std::unique_lock<std::mutex> lock(mtx, std::try_to_lock);
+    if (lock.owns_lock())
+        std::cout << "Try lock succeeded\n";
+    else
+        std::cout << "Try lock failed\n";
+}
+
+void adoptExample() {
+    mtx.lock();
+    std::unique_lock<std::mutex> lock(mtx, std::adopt_lock); // assume already locked
+    std::cout << "Adopt lock used\n";
+}
+
+int main() {
+    deferExample();
+    tryExample();
+    adoptExample();
+    return 0;
+}
+```
+
+---
 
