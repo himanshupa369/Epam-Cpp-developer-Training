@@ -10,6 +10,7 @@
 // 2. Order of locking is not defined (it will try to lock provided mutex in any order and ensure that
 //     there is no dead lock).
 // 3. It is a blocking call.(means if it can not able to lock a process then it releases previous locks and wait for current mutex to lock.)
+// 4. manual unlock is not needed for std::lock().
 
 
 // [Example:0] --> No deadlock.
