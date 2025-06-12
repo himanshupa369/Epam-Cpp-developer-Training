@@ -41,6 +41,7 @@ public:
 //private:
 //    static int i1;
 //public:
+//     // we can modify static variable inside static method.
 //    static void setStatic(int val) {
 //        i1 = val;
 //    }
@@ -95,10 +96,10 @@ public:
 //using namespace std;
 //class A {
 //private:
-//    //Reference members also need to be initialized in the constructor’s initialization list, as they cannot be assigned a value later in the constructor body.
+//    //Reference members also need to be initialized in the constructorâ€™s initialization list, as they cannot be assigned a value later in the constructor body.
 //     int& i1;
 //public:
-//    //A() {}  // when you create A a; Error: Reference 'i1' must be initialized in the constructor’s initialization list.
+//    //A() {}  // when you create A a; Error: Reference 'i1' must be initialized in the constructorâ€™s initialization list.
 //    A(int val):i1(val){}
 //    void print() {
 //        cout << "reference variable i1 = "<<i1 << endl;
