@@ -161,3 +161,21 @@ int main() {
     B b;
     return 0;
 }
+
+//f. avoid garbage value for same allocation name for data member and assign value
+
+// #include<iostream>
+// class test{
+//     mutable int data;
+//     public:
+//     test(int data):data(data){}
+//     void modify()const{
+//         data = 90;
+//     }
+//     void normal(){}
+// };
+// int main(){
+//     const test t(5);
+//     t.normal();
+//     return 0;
+// }
