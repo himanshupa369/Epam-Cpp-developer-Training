@@ -5,7 +5,7 @@
 //will hold the result.
 //2. There are three launch policies for creating task :
 //a.std::launch::async (create a thread) ,asynchronous running ,forces a new thread.
-//b.std::launch::deffered (don not create a thread) ,synchronous running,run when wait or get call.
+//b.std::launch::deferred (don not create a thread) ,synchronous running,run when wait or get call.
 //c.std::launch::async | std::launch::async
 
 //3. don't need of join here.
