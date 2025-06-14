@@ -1,7 +1,7 @@
 
 /*
 
-Rule of 3 :-
+Rule of 3 :-(Resource allocation)
 
    * If a class manages a resource (e.g., dynamic memory, file handle) and defines any of the following, it should define all three:
    1)* Destructor
@@ -17,7 +17,7 @@ Rule of 3 :-
    2)Ensures proper copying behavior for dynamically allocated resources.
    3)Avoids double deletion issues in destructors.
 
-Rule Of 5 :-
+Rule Of 5 :- (ownership)
    *The Rule of Five extends the Rule of Three in C++ by adding move semantics introduced in C++11.
    It ensures efficient resource management and prevents unnecessary deep copies.
    * Consequently, you should implement the rule of 5 for such classes
@@ -38,7 +38,7 @@ Rule Of 5 :-
      *When implementing resource-managing classes (e.g., file handles, sockets, smart pointers).
      *When dealing with large objects where moving is preferable to copying.
 
-Rule of 0 :-
+Rule of 0 :-(Renting)
    *The Rule of Zero is a modern C++ design principle that states that user-defined special member functions (destructor, copy/move constructors, and copy/move assignment operators) should be avoided
    by leveraging RAII (Resource Acquisition Is Initialization) and standard library containers like std::unique_ptr and std::shared_ptr for resource management.
    * If a class does not have ownership semantics, then do not provide any user defined function from the rule of 5
