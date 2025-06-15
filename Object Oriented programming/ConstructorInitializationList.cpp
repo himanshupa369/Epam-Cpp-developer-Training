@@ -165,17 +165,19 @@ int main() {
 //f. avoid garbage value for same allocation name for data member and assign value
 
 // #include<iostream>
+// using namespace std;
 // class test{
-//     mutable int data;
+//     int data;
 //     public:
-//     test(int data):data(data){}
-//     void modify()const{
-//         data = 90;
+//     test(int data):data(data){
+//       //data=data //give garbage zero        
 //     }
-//     void normal(){}
+//     void print(){
+//         cout<<"data "<<data<<endl;
+//     }
 // };
 // int main(){
-//     const test t(5);
-//     t.normal();
-//     return 0;
-// }
+//    test t(10);
+//    t.print();
+//    return 0;
+// }
