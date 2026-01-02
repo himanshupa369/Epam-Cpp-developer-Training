@@ -9,6 +9,7 @@ Derived classes should extend behavior, not break expectations.
 
 In other words:
 "If class B is a subclass of class A, we should be able to replace A with B without breaking the program."
+"A child class should be able to do everything its parent class can."
 
 Def:: Substitutability is a principle in object-oriented programming and it states that, in a computer program, if S is a Subtype of T, then objects of type T may be replaced with objects of type S
 => Which means, Derived types must be completely substitutable for their base types
